@@ -69,7 +69,7 @@
    - name: Deploy artifact from builder to a remote application server
      shell:
       chdir: /src/target
-      cmd: "rsync -a *.war root@81.26.182.39:/usr/local/tomcat/webapps"
+      cmd: "rsync -o StrictHostKeyChecking=no -a *.war root@81.26.182.39:/usr/local/tomcat/webapps"
 
 - name: Starting application server
   hosts: app_server
