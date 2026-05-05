@@ -1,0 +1,58 @@
+- name: Prepare building environment & building artifact
+  hosts: builder
+  become: true 
+
+  tasks:
+  - name: Setting up building environment
+    apt: 
+     name: 
+      - openjdk
+      - maven
+      - git
+      - rsync
+     state: present
+  - name: creating sources directory
+    file:
+     path: /src
+     state: directory
+  - name: Clone code repository
+    git:
+     repo: https://github.com/99North/Sample-Web-App.git
+     dest: /src
+  - name: Build artifacts
+    shell:
+     chdir: /src/Sample-Web-App
+     cmd: mvn package
+  
+
+- name: Preparing remote application server
+  hosts: app_server
+  become: true
+
+  tasks:
+   - name: Install rsync and tomcat
+     apt:
+      name:
+       - tomcat
+       - rsync
+
+- name: Pushing artifact to a remote application server
+  hosts: builder
+  become: true
+
+  tasks:
+   - name: Deploy artifact from builder to a remote application server
+     ansible.posix.syncronyze:
+     src: /src/Sample-Web-App/target/*.war
+     dest: "app_server:/usr/local/tomcat/webapps"
+
+- name: Starting application server
+  hosts: app_server
+  become: true
+
+  tasks:
+   - name: Start Tomcat daemon
+     service:
+      name: tomcat
+      state: started
+
