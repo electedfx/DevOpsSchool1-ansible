@@ -21,7 +21,7 @@
      dest: /src
   - name: Build artifacts
     shell:
-     chdir: /src/Sample-Web-App
+     chdir: /src
      cmd: mvn package
   
 
@@ -36,7 +36,7 @@
        - tomcat
        - rsync
       state: present
-      
+
 - name: Pushing artifact to a remote application server
   hosts: builder
   become: true
@@ -45,7 +45,7 @@
    - name: Deploy artifact from builder to a remote application server
      ansible.posix.synchronize:
       src: /src/Sample-Web-App/target/*.war
-      dest: "app_server:/usr/local/tomcat/webapps"
+      dest: "{{ hostvars['app_server']['ansible_host'] }}:/usr/local/tomcat/webapps"
 
 - name: Starting application server
   hosts: app_server
