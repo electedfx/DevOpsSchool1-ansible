@@ -42,7 +42,7 @@
 
   tasks:
    - name: Deploy artifact from builder to a remote application server
-     ansible.posix.synchronyze:
+     ansible.posix.synchronize:
      src: /src/Sample-Web-App/target/*.war
      dest: "app_server:/usr/local/tomcat/webapps"
 
