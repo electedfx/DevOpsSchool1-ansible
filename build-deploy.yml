@@ -65,7 +65,7 @@
    - name: Deploy artifact from builder to a remote application server
      shell:
       chdir: /src/target
-      cmd: "scp *.war {{ hostvars[groups['app_server'][0]]['ansible_host'] }}:/usr/local/tomcat/webapps"
+      cmd: "scp *.war {{ hostvars[groups['app_server'][0]] }}:/usr/local/tomcat/webapps"
 
 - name: Starting application server
   hosts: app_server
