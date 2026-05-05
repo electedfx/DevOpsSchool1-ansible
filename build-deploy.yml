@@ -48,7 +48,7 @@
    - name: Install rsync and tomcat
      apt:
       name:
-       - tomcat
+       - tomcat9
        - rsync
       state: present
    - name: Adding a remote auth key
