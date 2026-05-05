@@ -35,7 +35,8 @@
       name:
        - tomcat
        - rsync
-
+      state: present
+      
 - name: Pushing artifact to a remote application server
   hosts: builder
   become: true
