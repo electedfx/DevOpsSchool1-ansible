@@ -6,7 +6,7 @@
   - name: Setting up building environment
     apt: 
      name: 
-      - openjdk
+      - openjdk-11-jdk
       - maven
       - git
       - rsync
