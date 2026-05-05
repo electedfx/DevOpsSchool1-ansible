@@ -23,6 +23,21 @@
     shell:
      chdir: /src
      cmd: mvn package
+  - name: Generate ssh key
+    user:
+     name: root 
+     generate_ssh_key: yes
+     ssh_key_bits: 2048
+     ssh_key_file: ./ssh/root_key
+  - name: Register key withing ansible fact
+    slurp:
+     src: /root/.ssh/root_key.pub
+    register: builder_public_key_b64
+  - name: 
+    set_fact:
+      builder_public_key: "{{ builder_public_key_b64.content | b64decode }}"
+
+
   
 
 - name: Preparing remote application server
@@ -36,6 +51,11 @@
        - tomcat
        - rsync
       state: present
+   - name: Adding a remote auth key
+     authorized_key:
+      user: root
+      state: present
+      key: "{{ hostvars[groups['builder'][0]]['builder_public_key'] }}"
 
 - name: Pushing artifact to a remote application server
   hosts: builder
@@ -43,9 +63,9 @@
 
   tasks:
    - name: Deploy artifact from builder to a remote application server
-     ansible.posix.synchronize:
-      src: /src/Sample-Web-App/target/*.war
-      dest: "{{ hostvars['app_server']['ansible_host'] }}:/usr/local/tomcat/webapps"
+     shell:
+      chdir: /src/target
+      cmd: "scp *.war {{ hostvars['app_server']['ansible_host'] }}:/usr/local/tomcat/webapps"
 
 - name: Starting application server
   hosts: app_server
