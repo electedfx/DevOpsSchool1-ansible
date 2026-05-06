@@ -28,25 +28,26 @@
     fetch:
       src: /src/target/WebApp.war
       dest: /usr/src/
-      
+
 - name: Pushing artifact to a remote application server and preparing environment
   hosts: app_server
   become: true
 
   tasks:
   - name: Install rsync and tomcat
-     apt:
+    apt:
       name:
        - tomcat9
        - rsync
       state: present
+
   - name: Deploy artifact from builder to a remote application server
-     copy:
+    copy:
       src: /usr/src/81.26.190.112/src/target/WebApp.war
       dest: /usr/local/tomcat/webapps
-   
-   - name: Start Tomcat daemon
-     service:
-      name: tomcat
+
+  - name: Start Tomcat daemon
+    service:
+      name: tomcat9
       state: started
 
