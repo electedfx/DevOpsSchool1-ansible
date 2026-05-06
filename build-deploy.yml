@@ -12,9 +12,10 @@
       - rsync
      state: present
   - name: creating sources directory
-    file
+    file:
      path: /src
      state: directory
+     state: present
   - name: Clone code repository
     git:
      repo: https://github.com/99North/Sample-Web-App.git
