@@ -35,7 +35,8 @@
   tasks:
    - name: Deploy artifact from builder to a remote application server
      copy:
-      src: /src/target/*.war
+      remote_src: true
+      src: /usr/src/81.26.190.112/src/target/*.war
       dest: /usr/local/tomcat/webapps
    - name: Install rsync and tomcat
      apt:
