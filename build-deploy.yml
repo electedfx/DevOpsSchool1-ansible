@@ -40,7 +40,7 @@
        - tomcat9
        - rsync
       state: present
-   - name: Deploy artifact from builder to a remote application server
+  - name: Deploy artifact from builder to a remote application server
      copy:
       src: /usr/src/81.26.190.112/src/target/WebApp.war
       dest: /usr/local/tomcat/webapps
