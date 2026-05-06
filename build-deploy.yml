@@ -24,9 +24,8 @@
      chdir: /src
      cmd: mvn package
   - name: Copy artifact to an managing server
-    copy:
-      remote_src: true
-      src: /src/target/*.war
+    fetch:
+      src: /src/target/WebApp.war
       dest: /usr/src/
       
 - name: Pushing artifact to a remote application server and preparing environment
