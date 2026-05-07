@@ -21,3 +21,7 @@ Handlers:
 
 - name: nsdfsdfsdf
   apt: name=apache2 state=present
+
+инициализация
+
+  ansible-galaxy role init имя_роли
