@@ -1,0 +1,23 @@
+Перебор списка объектов для манипуляции
+
+- name: Install_items
+  hosts: web_host 
+
+  apt: 
+   name: {{items}}
+   state: present
+   with_items:
+    - nginx
+    - maven
+  when: ansible_os_family == "Debian"  //проверка ansible facts
+  notify: restart apache  //хэндлер
+
+
+Handlers:
+- name: restart apache - название идентичное тому, что в notify
+  service: name=httpd state=restarted
+
+Еще один вариант записи:
+
+- name: nsdfsdfsdf
+  apt: name=apache2 state=present
