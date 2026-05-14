@@ -15,4 +15,20 @@ hosts: all
      src: /home/superuser/Dockerfile
      dest: /usr/src/docker/
      state: present
+  - name: Building artifact
+   community.docker.docker_image_build:
+      name: localhost/java_app:latest
+      path: /usr/src/docker/
+      dockerfile: Dockerfile
+  - name: Log in to dockerhub registry
+  community.docker.docker_login:
+    username: electedfx
+    password: (ansible_vault)
+  - name: Tag image and push to docker hub
+  community.docker.docker_image:
+    name: localhost/java_app:latest
+    repository: electedfx/java_app:latest
+    push: true
+    source: local
+  
  
