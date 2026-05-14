@@ -19,7 +19,7 @@ hosts: builder
     community.docker.docker_image:
     build:
       path: /usr/src/docker
-    name: electedfx/ansible/java_app:latest
+    name: electedfx/ansible/java_app
     tag: v1
     push: true
     source: build
