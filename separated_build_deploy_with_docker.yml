@@ -1,0 +1,18 @@
+name: Arranging image building
+hosts: all
+
+ - name: Installing docker environment
+    apt:
+      name:
+      - docker
+      state: present
+ - name: Preparing destination path
+   ansible.builtin.file:
+       path: /usr/src/docker/
+       state: directory
+ - name: Delivering source files
+   ansible.builtin.copy:
+     src: /home/superuser/Dockerfile
+     dest: /usr/src/docker/
+     state: present
+ 
