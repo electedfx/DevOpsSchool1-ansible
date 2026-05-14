@@ -2,7 +2,7 @@ name: Arranging image building
 hosts: builder
 
  - name: Installing docker environment
-    apt:
+    ansible.builtin.apt:
       name:
       - docker
       state: present
@@ -42,8 +42,15 @@ hosts: builder
 name: Provisioning runtime environment
 hosts: web_app
       - name: Preparing CRE
-      apt:
+      ansible.builtin.apt:
          name: docker
          state: present
+      - name: Pulling image
+      community.docker.docker_image_pull:
+          name: electedfx/ansible/java_app:latest
+      - name: Create a data container
+      community.docker.docker_container:
+      name: my_java_app
+      image: electedfx/ansible/java_app:latest
   
  
