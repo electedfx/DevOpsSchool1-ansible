@@ -16,10 +16,13 @@ hosts: builder
      dest: /usr/src/docker/
      state: present
   - name: Building artifact
-   community.docker.docker_image_build:
-      name: localhost/java_app:latest
-      path: /usr/src/docker/
-      dockerfile: Dockerfile
+    community.docker.docker_image:
+    build:
+      path: /usr/src/docker
+    name: electedfx/ansible/java_app:latest
+    tag: v1
+    push: true
+    source: build
   - name: Log in to dockerhub registry
   community.docker.docker_login:
     username: electedfx
@@ -33,12 +36,14 @@ hosts: builder
   - name: Tag image and push to docker hub
   community.docker.docker_image:
     name: localhost/java_app:latest
-    repository: electedfx/java_app:latest
+    repository: electedfx/ansible/java_app:latest
     push: true
     source: local
-
- name: Provisioning runtime environment
- hosts: web_app
-      - name
+name: Provisioning runtime environment
+hosts: web_app
+      - name: Preparing CRE
+      apt:
+         name: docker
+         state: present
   
  
