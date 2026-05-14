@@ -1,5 +1,5 @@
 name: Arranging image building
-hosts: all
+hosts: builder
 
  - name: Installing docker environment
     apt:
@@ -23,12 +23,22 @@ hosts: all
   - name: Log in to dockerhub registry
   community.docker.docker_login:
     username: electedfx
-    password: (ansible_vault)
+    password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32306164326163376231666663653263303731313266633933633061666234386261353130353139
+          6532383165326436366637356630323934383438623236630a323632383237633661323331306232
+          38663830373166643564326138336639313336643036643064313935376136373565306239343535
+          3531653838373136310a336333353331373765663364396666393437643035313331386465396665
+          3932
   - name: Tag image and push to docker hub
   community.docker.docker_image:
     name: localhost/java_app:latest
     repository: electedfx/java_app:latest
     push: true
     source: local
+
+ name: Provisioning runtime environment
+ hosts: web_app
+      - name
   
  
