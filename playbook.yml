@@ -1,0 +1,21 @@
+---
+- name: Prepare CRE
+  hosts: all
+  become: true
+  roles:
+    - prepare_cre
+
+- name: Attaching registry & building/pushing artifacts
+  hosts: build
+  become: true
+  roles:
+    - registry_login
+    - building_artifacts
+
+- name: Start containerized Java app
+  hosts: app
+  become: true
+  roles:
+    - run_app
+
+
